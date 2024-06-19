@@ -5,7 +5,6 @@ export default defineConfig({
   lang: 'en-US',
   title: "NestJS S3",
   description: "NestJS module for AWS S3 adapted for AWS SDK v3",
-  base: '/Nest-AWS-SDK-V3-S3-CLIENT/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
