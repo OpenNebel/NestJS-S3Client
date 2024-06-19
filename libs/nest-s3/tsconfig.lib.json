@@ -2,6 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
     "outDir": "../../dist/libs/nest-s3"
   },
   "include": ["src/**/*"],

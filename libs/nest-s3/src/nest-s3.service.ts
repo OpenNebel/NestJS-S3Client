@@ -54,7 +54,7 @@ export class S3Service {
         Key: key,
       }),
     );
-    return await Body?.transformToString();
+    return Body?.transformToString();
   }
 
   async deleteOneObject(bucketName: string, key: string): Promise<void> {

@@ -18,17 +18,25 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": [
+        "node_modules/*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "libs/**/*.ts"],
-  "exclude": ["node_modules", "dist"],
+  "include": [
+    "src/**/*.ts",
+    "libs/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "paths": {
-    "@aws-aws-sdk3/nest-s3": [
+    "@open-nebel/nest-s3": [
       "libs/nest-s3/src"
     ],
-    "@aws-aws-sdk3/nest-s3/*": [
+    "@open-nebel/nest-s3/*": [
       "libs/nest-s3/src/*"
-    ],
-    }
+    ]
+  }
 }
