@@ -5,15 +5,22 @@
 
 ![COVER IMAGE OF PACKAGE](https://raw.githubusercontent.com/OpenNebel/Nest-AWS-SDK-V3-S3-CLIENT/master/assets/images/NEST_S3.PNG "Nest JS S3 Module")
 
-A NestJS module for interacting with AWS S3. This module simplifies the integration of AWS S3 within a NestJS application by providing injectable services and configuration options.
+A NestJS module for interacting with AWS S3. This module simplifies the integration of AWS S3 within a NestJS
+application by providing injectable services and configuration options.
 
 **Note**: This library is compatible with AWS SDK V3.
 
 > **AWS SDK Version 2.x Upcoming End-of-Support**
 >
-> We [announced](https://aws.amazon.com/blogs/developer/announcing-end-of-support-for-aws-sdk-for-javascript-v2) the upcoming end-of-support for AWS SDK for JavaScript v2. We recommend that you migrate to [AWS SDK for JavaScript v3](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html). For dates, additional details, and information on how to migrate, please refer to the linked announcement.
+> We [announced](https://aws.amazon.com/blogs/developer/announcing-end-of-support-for-aws-sdk-for-javascript-v2) the
+> upcoming end-of-support for AWS SDK for JavaScript v2. We recommend that you migrate
+> to [AWS SDK for JavaScript v3](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html). For
+> dates, additional details, and information on how to migrate, please refer to the linked announcement.
 >
-> The AWS SDK for JavaScript v3 is the latest and recommended version, which has been GA since December 2020. Here is [why and how you should use AWS SDK for JavaScript v3](https://aws.amazon.com/blogs/developer/why-and-how-you-should-use-aws-sdk-for-javascript-v3-on-node-js-18/). You can try our experimental migration scripts in [aws-sdk-js-codemod](https://www.npmjs.com/package/aws-sdk-js-codemod) to migrate your application from v2 to v3.
+> The AWS SDK for JavaScript v3 is the latest and recommended version, which has been GA since December 2020. Here
+> is [why and how you should use AWS SDK for JavaScript v3](https://aws.amazon.com/blogs/developer/why-and-how-you-should-use-aws-sdk-for-javascript-v3-on-node-js-18/).
+> You can try our experimental migration scripts in [aws-sdk-js-codemod](https://www.npmjs.com/package/aws-sdk-js-codemod)
+> to migrate your application from v2 to v3.
 
 ## Installation
 
@@ -38,91 +45,116 @@ You can configure the S3 module using either synchronous or asynchronous configu
 #### Synchronous Configuration
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { S3Module } from '@open-nebel/nest-s3';
+import {Module} from '@nestjs/common';
+import {S3Module} from '@open-nebel/nest-s3';
 
 @Module({
-  imports: [
-    S3Module.forRoot({
-      region: 'your-region',
-      accessKeyId: 'your-access-key-id',
-      secretAccessKey: 'your-secret-access-key',
-    }),
-  ],
+    imports: [
+        S3Module.forRoot({
+            region: 'your-region',
+            accessKeyId: 'your-access-key-id',
+            secretAccessKey: 'your-secret-access-key',
+        }),
+    ],
 })
-export class AppModule {}
+export class AppModule {
+}
 ```
 
 #### Asynchronous Configuration
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { S3Module } from '@open-nebel/nest-s3';
+import {Module} from '@nestjs/common';
+import {ConfigModule, ConfigService} from '@nestjs/config';
+import {S3Module} from '@open-nebel/nest-s3';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    S3Module.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        region: configService.get<string>('AWS_REGION'),
-        accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
-        secretAccessKey: configService.get<string>('AWS_SECRET_ACCESS_KEY'),
-      }),
-    }),
-  ],
+    imports: [
+        ConfigModule.forRoot(),
+        S3Module.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => ({
+                region: configService.get<string>('AWS_REGION'),
+                accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
+                secretAccessKey: configService.get<string>('AWS_SECRET_ACCESS_KEY'),
+            }),
+        }),
+    ],
 })
-export class AppModule {}
+export class AppModule {
+}
 ```
 
 ### Using the S3Service
 
-The `S3Service` provides methods to interact with AWS S3, such as creating buckets, uploading objects, and generating presigned URLs.
+The `S3Service` provides methods to interact with AWS S3, such as creating buckets, uploading objects, and generating
+presigned URLs. Additionally, it exposes an instance of `S3Client` configured with the module settings, allowing direct
+interaction with S3.
 
 #### Example Usage in a Service
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { S3Service } from '@open-nebel/nest-s3';
+import {Injectable} from '@nestjs/common';
+import {S3Service} from '@open-nebel/nest-s3';
+import {S3Client, ListBucketsCommand} from '@aws-sdk/client-s3';
 
 @Injectable()
 export class MyService {
-  constructor(private readonly s3Service: S3Service) {}
+    constructor(private readonly s3Service: S3Service) {
+    }
 
-  async useS3Methods() {
-    const bucketName = 'your-bucket-name';
-    const key = 'your-file-key';
-    const body = 'your-file-content';
+    async useS3ClientOriginal(): Promise<void> {
+        const s3Client: S3Client = this.s3Service.getClient();
 
-    // Create a bucket
-    await this.s3Service.createBucket(bucketName);
+        const buckets = await s3Client.send(new ListBucketsCommand({}));
 
-    // Upload an object
-    await this.s3Service.uploadObject(bucketName, key, body);
+        console.log('Buckets:', buckets.Buckets);
+    }
 
-    // Get an object
-    const objectContent = await this.s3Service.getObject(bucketName, key);
-    console.log('Object Content:', objectContent);
+    async useS3Methods() {
 
-    // Generate a presigned URL
-    const presignedUrl = await this.s3Service.createPresignedUrlWithClient({ bucket: bucketName, key });
-    console.log('Presigned URL:', presignedUrl);
+        const bucketName = 'your-bucket-name';
+        const key = 'your-file-key';
+        const body = 'your-file-content';
 
-    // Delete an object
-    await this.s3Service.deleteOneObject(bucketName, key);
+        // Create a bucket
+        await this.s3Service.createBucket(bucketName);
 
-    // Delete all objects in the bucket
-    await this.s3Service.deleteAllObjects(bucketName);
+        // Upload an object
+        await this.s3Service.uploadObject(bucketName, key, body);
 
-    // Delete the bucket
-    await this.s3Service.deleteBucket(bucketName);
-  }
+        // Get an object
+        const objectContent = await this.s3Service.getObject(bucketName, key);
+        console.log('Object Content:', objectContent);
+
+        // Generate a presigned URL
+        const presignedUrl = await this.s3Service.createPresignedUrlWithClient({bucket: bucketName, key});
+        console.log('Presigned URL:', presignedUrl);
+
+        // Delete an object
+        await this.s3Service.deleteOneObject(bucketName, key);
+
+        // Delete all objects in the bucket
+        await this.s3Service.deleteAllObjects(bucketName);
+
+        // Delete the bucket
+        await this.s3Service.deleteBucket(bucketName);
+    }
 }
 ```
 
 ### Available Methods
+
+Given below are the available methods provided by the `S3Client` and `S3Service` classes.
+
+#### `getClient(): S3Client`
+
+Returns the configured S3Client instance for direct interaction with AWS S3.
+
+```typescript
+const s3Client: S3Client = this.s3Service.getClient();
+```
 
 #### `createBucket(bucketName: string): Promise<void>`
 
@@ -178,7 +210,7 @@ await this.s3Service.deleteBucket('my-new-bucket');
 Generates a presigned URL for accessing an object in the specified S3 bucket.
 
 ```typescript
-const presignedUrl = await this.s3Service.createPresignedUrlWithClient({ bucket: 'my-new-bucket', key: 'my-object-key' });
+const presignedUrl = await this.s3Service.createPresignedUrlWithClient({bucket: 'my-new-bucket', key: 'my-object-key'});
 console.log('Presigned URL:', presignedUrl);
 ```
 
