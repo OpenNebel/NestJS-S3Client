@@ -26,6 +26,7 @@
     "type": "git",
     "url": "https://github.com/OpenNebel/Nest-AWS-SDK-V3-S3-CLIENT"
   },
+  "homepage": "https://nestjs-s3.netlify.app",
   "keywords": [
     "nestjs",
     "nestjs-library",

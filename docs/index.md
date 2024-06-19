@@ -9,17 +9,17 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /markdown-examples
+      link: /getting-started
     - theme: alt
-      text: API Examples
+      text: Features
       link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: S3 Module Configuration
+    details: Easily configure the S3 module with synchronous and asynchronous options for seamless integration with AWS S3 in a NestJS application.
+  - title: Direct Access to S3 Client
+    details: Access the configured S3Client instance directly for full interaction with the AWS S3 API. Leverage the power and flexibility of native S3 methods.
+  - title: Asynchronous Configuration
+    details: Configure the S3 module asynchronously, integrating configuration services like NestJS's ConfigService for dynamic, environment-based setup.
 ---
 
