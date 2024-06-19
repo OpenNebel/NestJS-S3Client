@@ -17,6 +17,14 @@
     "dist",
     "README.md"
   ],
+  "keywords": [
+    "nestjs",
+    "nestjs-library",
+    "aws",
+    "s3",
+    "aws-sdk/s3-client",
+    "aws-sdk"
+  ],
   "license": "MIT",
   "description": "NestJS module for AWS S3 adapted for AWS SDK v3",
   "dependencies": {

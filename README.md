@@ -1,23 +1,27 @@
-Certainly! Here's a comprehensive README for your NestJS AWS S3 library:
-
----
-
 # @open-nebel/nest-s3
 
 A NestJS module for interacting with AWS S3. This module simplifies the integration of AWS S3 within a NestJS application by providing injectable services and configuration options.
+
+**Note**: This library is compatible with AWS SDK V3.
+
+> **Version 2.x Upcoming End-of-Support**
+>
+> We announced the upcoming end-of-support for AWS SDK for JavaScript v2. We recommend that you migrate to AWS SDK for JavaScript v3. For dates, additional details, and information on how to migrate, please refer to the linked announcement.
+>
+> The AWS SDK for JavaScript v3 is the latest and recommended version, which has been GA since December 2020. Here is why and how you should use AWS SDK for JavaScript v3. You can try our experimental migration scripts in aws-sdk-js-codemod to migrate your application from v2 to v3.
 
 ## Installation
 
 To install the package, use the following commands:
 
 ```bash
-npm install @open-nebel/nest-s3 @aws-sdk/client-s3
+npm install @open-nebel/nest-s3
 ```
 
 or
 
 ```bash
-yarn add @open-nebel/nest-s3 @aws-sdk/client-s3
+yarn add @open-nebel/nest-s3
 ```
 
 ## Usage
@@ -33,13 +37,13 @@ import { Module } from '@nestjs/common';
 import { S3Module } from '@open-nebel/nest-s3';
 
 @Module({
-  imports: [
-    S3Module.forRoot({
-      region: 'your-region',
-      accessKeyId: 'your-access-key-id',
-      secretAccessKey: 'your-secret-access-key',
-    }),
-  ],
+    imports: [
+        S3Module.forRoot({
+            region: 'your-region',
+            accessKeyId: 'your-access-key-id',
+            secretAccessKey: 'your-secret-access-key',
+        }),
+    ],
 })
 export class AppModule {}
 ```
@@ -52,18 +56,18 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { S3Module } from '@open-nebel/nest-s3';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    S3Module.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        region: configService.get<string>('AWS_REGION'),
-        accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
-        secretAccessKey: configService.get<string>('AWS_SECRET_ACCESS_KEY'),
-      }),
-    }),
-  ],
+    imports: [
+        ConfigModule.forRoot(),
+        S3Module.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => ({
+                region: configService.get<string>('AWS_REGION'),
+                accessKeyId: configService.get<string>('AWS_ACCESS_KEY_ID'),
+                secretAccessKey: configService.get<string>('AWS_SECRET_ACCESS_KEY'),
+            }),
+        }),
+    ],
 })
 export class AppModule {}
 ```
@@ -78,19 +82,19 @@ import { S3Service } from '@open-nebel/nest-s3';
 
 @Injectable()
 export class MyService {
-  constructor(private readonly s3Service: S3Service) {}
+    constructor(private readonly s3Service: S3Service) {}
 
-  async uploadFile() {
-    const bucketName = 'your-bucket-name';
-    const key = 'your-file-key';
-    const body = 'your-file-content';
+    async uploadFile() {
+        const bucketName = 'your-bucket-name';
+        const key = 'your-file-key';
+        const body = 'your-file-content';
 
-    await this.s3Service.createBucket(bucketName);
-    await this.s3Service.uploadObject(bucketName, key, body);
+        await this.s3Service.createBucket(bucketName);
+        await this.s3Service.uploadObject(bucketName, key, body);
 
-    const presignedUrl = await this.s3Service.createPresignedUrlWithClient({ bucket: bucketName, key });
-    console.log('Presigned URL:', presignedUrl);
-  }
+        const presignedUrl = await this.s3Service.createPresignedUrlWithClient({ bucket: bucketName, key });
+        console.log('Presigned URL:', presignedUrl);
+    }
 }
 ```
 
@@ -141,5 +145,3 @@ This package uses the AWS SDK for JavaScript (v3) and is inspired by the design 
 If you encounter any issues or have any questions, feel free to open an issue on GitHub or contact the maintainers.
 
 ---
-
-By following this README, users should be able to easily install, configure, and use your NestJS AWS S3 library in their projects.
