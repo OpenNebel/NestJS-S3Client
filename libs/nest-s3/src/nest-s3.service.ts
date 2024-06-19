@@ -25,6 +25,10 @@ export class S3Service {
     });
   }
 
+  getClient(): S3Client {
+    return this.s3Client;
+  }
+
   async createBucket(bucketName: string): Promise<void> {
     await this.s3Client.send(
       new CreateBucketCommand({
@@ -91,21 +95,5 @@ export class S3Service {
   async createPresignedUrlWithClient({ bucket, key } : { bucket: string, key: string }) {
     const command = new GetObjectCommand({ Bucket: bucket, Key: key });
     return getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
-  }
-
-  async uploadFile(): Promise<string> {
-    const bucketName = `test-bucket-${Date.now()}`;
-    await this.createBucket(bucketName);
-    await this.uploadObject(
-      bucketName,
-      'my-first-object.txt',
-      'Hello JavaScript SDK !!!',
-    );
-    //return await this.getObject(bucketName, 'my-first-object.txt');
-
-    return this.createPresignedUrlWithClient({
-      bucket: bucketName,
-      key: 'my-first-object.txt',
-    });
   }
 }
