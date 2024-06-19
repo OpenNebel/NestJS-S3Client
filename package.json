@@ -31,6 +31,6 @@
     "@types/jest": "^29.5.12",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
-    "webpack": "^5.92.0"
+    "webpack": "^5.0.0"
   }
 }
