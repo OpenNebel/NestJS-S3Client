@@ -3,7 +3,7 @@
 [![NPM version](https://img.shields.io/npm/v/@open-nebel/nest-s3.svg)](https://www.npmjs.com/package/@open-nebel/nest-s3)
 [![NPM downloads](https://img.shields.io/npm/dm/@open-nebel/nest-s3.svg)](https://www.npmjs.com/package/@open-nebel/nest-s3)
 
-![COVER IMAGE OF PACKAGE](assets/images/NEST_S3.PNG "Nest JS S3 Module")
+![COVER IMAGE OF PACKAGE](https://raw.githubusercontent.com/OpenNebel/Nest-AWS-SDK-V3-S3-CLIENT/master/assets/images/NEST_S3.PNG "Nest JS S3 Module")
 
 A NestJS module for interacting with AWS S3. This module simplifies the integration of AWS S3 within a NestJS application by providing injectable services and configuration options.
 
@@ -20,13 +20,13 @@ A NestJS module for interacting with AWS S3. This module simplifies the integrat
 To install the package, use the following commands:
 
 ```bash
-npm install @open-nebel/nest-s3
+npm install @open-nebel/nest-s3 @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
 ```
 
 or
 
 ```bash
-yarn add @open-nebel/nest-s3
+yarn add @open-nebel/nest-s3 @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
 ```
 
 ## Usage

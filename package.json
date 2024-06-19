@@ -6,17 +6,26 @@
     "url": "https://github.com/OpenNebel"
   },
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.5",
   "main": "dist/libs/nest-s3/index.js",
   "typings": "dist/libs/nest-s3/index.d.ts",
   "scripts": {
     "build": "nest build nest-s3",
-    "buil:ts": "tsc -p libs/nest-s3/tsconfig.lib.json"
+    "buil:ts": "tsc -p libs/nest-s3/tsconfig.lib.json",
+    "publish:npm": "npm publish --access public",
+    "publish:next": "npm publish --access public --tag next",
+    "prerelease": "npm run build",
+    "fix:npm": "rm -rf node_modules && rm package-lock.json && npm install",
+    "fix:yarn": "rm -rf node_modules && rm yarn.lock && yarn install"
   },
   "files": [
     "dist",
     "README.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenNebel/Nest-AWS-SDK-V3-S3-CLIENT"
+  },
   "keywords": [
     "nestjs",
     "nestjs-library",
@@ -27,15 +36,20 @@
   ],
   "license": "MIT",
   "description": "NestJS module for AWS S3 adapted for AWS SDK v3",
-  "dependencies": {
+  "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.598.0",
+    "@aws-sdk/s3-request-presigner": "^3.598.0",
+    "@nestjs/common": ">=10.0.0",
+    "@nestjs/config": ">=3.2.0",
+    "@nestjs/core": ">=10.0.0"
+  },
+  "devDependencies": {
     "@aws-sdk/client-s3": "^3.598.0",
     "@aws-sdk/s3-request-presigner": "^3.598.0",
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.3.9",
-    "@nestjs/testing": "^10.3.9"
-  },
-  "devDependencies": {
+    "@nestjs/testing": "^10.3.9",
     "@types/jest": "^29.5.12",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
