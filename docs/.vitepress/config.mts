@@ -11,7 +11,10 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         nav: [
             {text: 'Home', link: '/'},
-            {text: 'Features', link: '/features/available-methods'}
+            {text: 'Guide', link: '/introduction'},
+            {text: 'Features', link: '/features/available-methods'},
+            {text: 'Issues', link: 'https://github.com/OpenNebel/NestJS-S3Client/issues'},
+
         ],
 
         search: {
@@ -29,8 +32,17 @@ export default defineConfig({
             },
             {
                 text: 'Features',
+                collapsed: true,
                 items: [
                     {text: 'Available methods', link: '/features/available-methods'},
+                    {text: 'Get Client', link: '/features/get-client'},
+                    {text: 'Create Bucket', link: '/features/create-bucket'},
+                    {text: 'Upload Object', link: '/features/upload-object'},
+                    {text: 'Get Object', link: '/features/get-object'},
+                    {text: 'Delete One Object', link: '/features/delete-one-object'},
+                    {text: 'Delete All Objects', link: '/features/delete-all-objects'},
+                    {text: 'Delete Bucket', link: '/features/delete-bucket'},
+                    {text: 'Create Presigned URL', link: '/features/presigned-url'},
                 ]
             }
         ],
