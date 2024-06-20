@@ -1,4 +1,4 @@
-![COVER IMAGE OF PACKAGE](https://raw.githubusercontent.com/OpenNebel/Nest-AWS-SDK-V3-S3-CLIENT/master/assets/images/NEST_S3.PNG "Nest JS S3 Module")
+![COVER IMAGE OF PACKAGE](https://raw.githubusercontent.com/OpenNebel/NestJS-S3Client/master/assets/images/NEST_S3.PNG "Nest JS S3 Module")
 
 <p align="center">
 <a href="https://www.npmjs.com/package/@open-nebel/nest-s3" target="_blank"><img src="https://img.shields.io/npm/v/@open-nebel/nest-s3" alt="NPM Version" /></a>

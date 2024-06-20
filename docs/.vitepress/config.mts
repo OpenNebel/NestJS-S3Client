@@ -7,10 +7,11 @@ export default defineConfig({
     description: "NestJS module for AWS S3 adapted for AWS SDK v3",
     cleanUrls: true,
     themeConfig: {
+        lastUpdated: true,
         // https://vitepress.dev/reference/default-theme-config
         nav: [
             {text: 'Home', link: '/'},
-            {text: 'Features', link: '/markdown-examples'}
+            {text: 'Features', link: '/features/available-methods'}
         ],
 
         search: {
@@ -29,16 +30,19 @@ export default defineConfig({
             {
                 text: 'Features',
                 items: [
-                    {text: 'Markdown Examples', link: '/markdown-examples'},
-                    {text: 'Runtime API Examples', link: '/api-examples'}
+                    {text: 'Available methods', link: '/features/available-methods'},
                 ]
             }
         ],
 
-        socialLinks: [
-            {icon: 'github', link: 'https://github.com/OpenNebel/Nest-AWS-SDK-V3-S3-CLIENT'},
-            {icon: 'npm', link: 'https://www.npmjs.com/package/@open-nebel/nest-s3'},
+        footer: {
+            message: 'Released under the MIT License.',
+            copyright: 'Copyright © 2024 - OpenNebel (Nebel Mass)'
+        },
 
+        socialLinks: [
+            {icon: 'github', link: 'https://github.com/OpenNebel/NestJS-S3Client'},
+            {icon: 'npm', link: 'https://www.npmjs.com/package/@open-nebel/nest-s3'},
         ]
     }
 })

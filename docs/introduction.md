@@ -1,10 +1,17 @@
+---
+outline: deep
+---
+
 # Introduction
+
+![COVER IMAGE OF PACKAGE](https://raw.githubusercontent.com/OpenNebel/NestJS-S3Client/master/assets/images/NEST_S3.PNG "Nest JS S3 Module")
+
 
 ### Introduction to @open-nebel/nestjs-s3
 
 Welcome to the documentation for `@open-nebel/nest-s3`, a powerful and flexible NestJS module designed to seamlessly integrate AWS S3 into your NestJS applications. This library simplifies the interaction with AWS S3, providing easy-to-use, configurable services to manage your storage needs.
 
-### Why Use @open-nebel/nestjs-s3?
+### Why Use @open-nebel/nestjs-s3 ?
 
 Amazon S3 (Simple Storage Service) is one of the most widely used cloud storage solutions, known for its scalability, data availability, security, and performance. Integrating AWS S3 into your NestJS application allows you to leverage these benefits for a variety of use cases, including:
 
