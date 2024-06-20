@@ -12,11 +12,13 @@
 
 ## @open-nebel/nest-s3
 
+📖 **Docs**: [https://nestjs-s3.netlify.app](https://nestjs-s3.netlify.app/introduction)
+
 A NestJS module for interacting with AWS S3. This module simplifies the integration of AWS S3 within a NestJS application by providing injectable services and configuration options.
 
 **Note**: This library is compatible with AWS SDK V3.
 
-> **AWS SDK Version 2.x Upcoming End-of-Support**
+> ⚠️ **AWS SDK Version 2.x Upcoming End-of-Support**
 >
 > We [announced](https://aws.amazon.com/blogs/developer/announcing-end-of-support-for-aws-sdk-for-javascript-v2) the upcoming end-of-support for AWS SDK for JavaScript v2. We recommend that you migrate to [AWS SDK for JavaScript v3](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html). For dates, additional details, and information on how to migrate, please refer to the linked announcement.
 >
@@ -161,11 +163,11 @@ export class MyService {
 }
 ```
 
-### Available Methods
+## Available Methods
 
 Given below are the available methods provided by the `S3Client` and `S3Service` classes.
 
-#### `getClient(): S3Client`
+### `getClient(): S3Client`
 
 Returns the configured S3Client instance for direct interaction with AWS S3.
 
@@ -173,7 +175,7 @@ Returns the configured S3Client instance for direct interaction with AWS S3.
 const s3Client: S3Client = this.s3Service.getClient();
 ```
 
-#### `createBucket(bucketName: string): Promise<void>`
+### `createBucket(bucketName: string): Promise<void>`
 
 Creates a new S3 bucket with the specified name.
 
@@ -181,7 +183,7 @@ Creates a new S3 bucket with the specified name.
 await this.s3Service.createBucket('my-new-bucket');
 ```
 
-#### `uploadObject(bucketName: string, key: string, body: string): Promise<void>`
+### `uploadObject(bucketName: string, key: string, body: string): Promise<void>`
 
 Uploads an object to the specified S3 bucket.
 
@@ -189,7 +191,7 @@ Uploads an object to the specified S3 bucket.
 await this.s3Service.uploadObject('my-new-bucket', 'my-object-key', 'Hello, world!');
 ```
 
-#### `getObject(bucketName: string, key: string): Promise<string | undefined>`
+### `getObject(bucketName: string, key: string): Promise<string | undefined>`
 
 Retrieves an object from the specified S3 bucket.
 
@@ -198,7 +200,7 @@ const content = await this.s3Service.getObject('my-new-bucket', 'my-object-key')
 console.log('Object content:', content);
 ```
 
-#### `deleteOneObject(bucketName: string, key: string): Promise<void>`
+### `deleteOneObject(bucketName: string, key: string): Promise<void>`
 
 Deletes an object from the specified S3 bucket.
 
@@ -206,7 +208,7 @@ Deletes an object from the specified S3 bucket.
 await this.s3Service.deleteOneObject('my-new-bucket', 'my-object-key');
 ```
 
-#### `deleteAllObjects(bucketName: string): Promise<void>`
+### `deleteAllObjects(bucketName: string): Promise<void>`
 
 Deletes all objects from the specified S3 bucket.
 
@@ -214,7 +216,7 @@ Deletes all objects from the specified S3 bucket.
 await this.s3Service.deleteAllObjects('my-new-bucket');
 ```
 
-#### `deleteBucket(bucketName: string): Promise<void>`
+### `deleteBucket(bucketName: string): Promise<void>`
 
 Deletes the specified S3 bucket.
 
@@ -222,7 +224,7 @@ Deletes the specified S3 bucket.
 await this.s3Service.deleteBucket('my-new-bucket');
 ```
 
-#### `createPresignedUrlWithClient(params: { bucket: string; key: string }): Promise<string>`
+### `createPresignedUrlWithClient(params: { bucket: string; key: string }): Promise<string>`
 
 Generates a presigned URL for accessing an object in the specified S3 bucket.
 

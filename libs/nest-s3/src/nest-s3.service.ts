@@ -1,99 +1,172 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {
-  CreateBucketCommand,
-  DeleteBucketCommand,
-  DeleteObjectCommand,
-  GetObjectCommand,
-  paginateListObjectsV2,
-  PutObjectCommand,
-  S3Client,
+    CreateBucketCommand,
+    DeleteBucketCommand,
+    DeleteObjectCommand,
+    GetObjectCommand,
+    paginateListObjectsV2,
+    PutObjectCommand,
+    S3Client,
 } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { S3ModuleOptions } from './interfaces/s3.interface';
+import {getSignedUrl} from '@aws-sdk/s3-request-presigner';
+import {S3ModuleOptions} from './interfaces/s3.interface';
 
 @Injectable()
 export class S3Service {
-  private readonly s3Client: S3Client;
+    private readonly s3Client: S3Client;
 
-  constructor(@Inject('S3_MODULE_OPTIONS') private options: S3ModuleOptions) {
-    this.s3Client = new S3Client({
-      region: options.region,
-      credentials: {
-        accessKeyId: options.accessKeyId,
-        secretAccessKey: options.secretAccessKey,
-      },
-    });
-  }
-
-  getClient(): S3Client {
-    return this.s3Client;
-  }
-
-  async createBucket(bucketName: string): Promise<void> {
-    await this.s3Client.send(
-      new CreateBucketCommand({
-        Bucket: bucketName,
-      }),
-    );
-  }
-
-  async uploadObject(
-    bucketName: string,
-    key: string,
-    body: string,
-  ): Promise<void> {
-    await this.s3Client.send(
-      new PutObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-        Body: body,
-      }),
-    );
-  }
-
-  async getObject(bucketName: string, key: string): Promise<string|undefined> {
-    const { Body } = await this.s3Client.send(
-      new GetObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-      }),
-    );
-    return Body?.transformToString();
-  }
-
-  async deleteOneObject(bucketName: string, key: string): Promise<void> {
-    await this.s3Client.send(
-      new DeleteObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-      }),
-    );
-  }
-
-  async deleteAllObjects(bucketName: string): Promise<void> {
-    const paginator = paginateListObjectsV2(
-      { client: this.s3Client },
-      { Bucket: bucketName },
-    );
-
-    for await (const page of paginator) {
-      const objects = page.Contents;
-      if (objects) {
-        for (const object of objects) {
-          await this.s3Client.send(
-            new DeleteObjectCommand({ Bucket: bucketName, Key: object.Key }),
-          );
-        }
-      }
+    constructor(@Inject('S3_MODULE_OPTIONS') private options: S3ModuleOptions) {
+        this.s3Client = new S3Client({
+            region: options.region,
+            credentials: {
+                accessKeyId: options.accessKeyId,
+                secretAccessKey: options.secretAccessKey,
+            },
+        });
     }
-  }
 
-  async deleteBucket(bucketName: string): Promise<void> {
-    await this.s3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
-  }
+    /**
+     * This method is used to get the S3 client.
+     *
+     * @returns {S3Client} The S3 client.
+     */
+    getClient(): S3Client {
+        return this.s3Client;
+    }
 
-  async createPresignedUrlWithClient({ bucket, key } : { bucket: string, key: string }) {
-    const command = new GetObjectCommand({ Bucket: bucket, Key: key });
-    return getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
-  }
+    /**
+     * This method is used to create a new bucket in AWS S3.
+     *
+     * @async
+     * @param {string} bucketName - The name of the bucket to be created.
+     * @returns {Promise<void>} A promise that resolves when the bucket is successfully created.
+     * @throws {Error} Will throw an error if the bucket creation fails.
+     */
+    async createBucket(bucketName: string): Promise<void> {
+        await this.s3Client.send(
+            new CreateBucketCommand({
+                Bucket: bucketName,
+            }),
+        );
+    }
+
+    /**
+     * This method is used to upload an object to a specified bucket in AWS S3.
+     *
+     * @async
+     * @param {string} bucketName - The name of the bucket where the object will be uploaded.
+     * @param {string} key - The key under which the object is stored.
+     * @param {string} body - The content of the object.
+     * @returns {Promise<void>} A promise that resolves when the object is successfully uploaded.
+     * @throws {Error} Will throw an error if the object upload fails.
+     */
+    async uploadObject(
+        bucketName: string,
+        key: string,
+        body: string,
+    ): Promise<void> {
+        await this.s3Client.send(
+            new PutObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+                Body: body,
+            }),
+        );
+    }
+
+    /**
+     * This method is used to retrieve an object from a specified bucket in AWS S3.
+     *
+     * @async
+     * @param {string} bucketName - The name of the bucket where the object is stored.
+     * @param {string} key - The key under which the object is stored.
+     * @returns {Promise<string | undefined>} A promise that resolves with the object content as a string, or undefined if the object does not exist.
+     * @throws {Error} Will throw an error if the object retrieval fails.
+     */
+    async getObject(bucketName: string, key: string): Promise<string | undefined> {
+        const {Body} = await this.s3Client.send(
+            new GetObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+            }),
+        );
+        return Body?.transformToString();
+    }
+
+    /**
+     * This method is used to delete a single object from a specified bucket in AWS S3.
+     *
+     * @async
+     * @param {string} bucketName - The name of the bucket where the object is stored.
+     * @param {string} key - The key under which the object is stored.
+     * @returns {Promise<void>} A promise that resolves when the object is successfully deleted.
+     * @throws {Error} Will throw an error if the object deletion fails.
+     */
+    async deleteOneObject(bucketName: string, key: string): Promise<void> {
+        await this.s3Client.send(
+            new DeleteObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+            }),
+        );
+    }
+
+    /**
+     * This method is used to delete all objects from a specified bucket in AWS S3.
+     *
+     * @async
+     * @param {string} bucketName - The name of the bucket where the objects are stored.
+     * @returns {Promise<void>} A promise that resolves when all objects are successfully deleted.
+     * @throws {Error} Will throw an error if the deletion of any object fails.
+     */
+    async deleteAllObjects(bucketName: string): Promise<void> {
+        const paginator = paginateListObjectsV2(
+            {client: this.s3Client},
+            {Bucket: bucketName},
+        );
+
+        for await (const page of paginator) {
+            const objects = page.Contents;
+            if (objects) {
+                for (const object of objects) {
+                    await this.s3Client.send(
+                        new DeleteObjectCommand({Bucket: bucketName, Key: object.Key}),
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * This method is used to delete a bucket in AWS S3.
+     *
+     * @async
+     * @param {string} bucketName - The name of the bucket to be deleted.
+     * @returns {Promise<void>} A promise that resolves when the bucket is successfully deleted.
+     * @throws {Error} Will throw an error if the bucket deletion fails.
+     */
+    async deleteBucket(bucketName: string): Promise<void> {
+        await this.s3Client.send(new DeleteBucketCommand({Bucket: bucketName}));
+    }
+
+
+    /**
+     * This method is used to create a presigned URL for a specific object in a specified bucket in AWS S3.
+     *
+     * @async
+     * @param {Object} params - An object containing the bucket name, key of the object and the expiration time of the URL in seconds.
+     * @param {string} params.bucket - The name of the bucket where the object is stored.
+     * @param {string} params.key - The key under which the object is stored.
+     * @param {number} [params.expiresIn=3600] - The expiration time of the URL in seconds. Defaults to 3600 seconds (1 hour).
+     * @returns {Promise<string>} A promise that resolves with the presigned URL as a string.
+     * @throws {Error} Will throw an error if the presigned URL creation fails.
+     */
+    async createPresignedUrlWithClient({bucket, key, expiresIn = 3600}: {
+        bucket: string,
+        key: string,
+        expiresIn?: number
+    }) {
+        const command = new GetObjectCommand({Bucket: bucket, Key: key});
+        return getSignedUrl(this.s3Client, command, {expiresIn: expiresIn});
+    }
 }
