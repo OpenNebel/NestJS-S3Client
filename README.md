@@ -43,7 +43,7 @@ A NestJS module for interacting with AWS S3. This module simplifies the integrat
     - [deleteBucket(bucketName: string): Promise<void>](#deletebucketbucketname-string-promisevoid)
     - [createPresignedUrlWithClient(params: { bucket: string; key: string }): Promise<string>](#createpresignedurlwithclientparams--bucket-string-key-string--promisestring)
     - [copyObject(sourceBucket: string, sourceKey: string, destinationBucket: string, destinationKey: string): Promise<void>](#copyobjectsourcebucket-string-sourcekey-string-destinationbucket-string-destinationkey-string-promisevoid)
-    - [listBuckets(): Promise<{ owner: { name: string }; buckets: { name: string }[] }>] (#listbuckets-promise-owner-name-string-buckets-name-string)
+    - [listBuckets(): Promise<{ owner: { name: string }; buckets: { name: string }[] }>](#listbuckets-promise-owner-name-string-buckets-name-string)
 - [License](#license)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
