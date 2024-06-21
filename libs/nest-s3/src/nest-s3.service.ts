@@ -1,9 +1,10 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {
+    CopyObjectCommand,
     CreateBucketCommand,
     DeleteBucketCommand,
     DeleteObjectCommand,
-    GetObjectCommand,
+    GetObjectCommand, ListBucketsCommand, ListObjectsV2Command,
     paginateListObjectsV2,
     PutObjectCommand,
     S3Client,
@@ -168,5 +169,57 @@ export class S3Service {
     }) {
         const command = new GetObjectCommand({Bucket: bucket, Key: key});
         return getSignedUrl(this.s3Client, command, {expiresIn: expiresIn});
+    }
+
+
+    /**
+     * This method is used to copy an object from one bucket to another in AWS S3.
+     *
+     * @async
+     * @param {string} sourceBucket - The name of the source bucket.
+     * @param {string} sourceKey - The key of the source object.
+     * @param {string} destinationBucket - The name of the destination bucket.
+     * @param {string} destinationKey - The key of the destination object.
+     * @returns {Promise<void>} A promise that resolves when the object is successfully copied.
+     * @throws {Error} Will throw an error if the object copy fails.
+     */
+    async copyObject(
+        sourceBucket: string,
+        sourceKey: string,
+        destinationBucket: string,
+        destinationKey: string
+    ): Promise<void> {
+        const command = new CopyObjectCommand({
+            CopySource: `${sourceBucket}/${sourceKey}`,
+            Bucket: destinationBucket,
+            Key: destinationKey,
+        });
+
+        await this.s3Client.send(command);
+    }
+
+    /**
+     * This method is used to list all buckets in the AWS S3.
+     *
+     * @async
+     * @returns {Promise<{owner: {name: string}, buckets: {name: string}[]}>} A promise that resolves with the owner and buckets information.
+     * @throws {Error} Will throw an error if the bucket listing fails.
+     */
+    async listBuckets(): Promise<{
+        owner: { name: string };
+        buckets: { name: string }[];
+    }> {
+        const command = new ListBucketsCommand({});
+        const response = await this.s3Client.send(command);
+
+        const owner = response.Owner
+            ? {name: response.Owner.DisplayName ?? "unknown"}
+            : {name: "unknown"};
+
+        const buckets = (response.Buckets ?? []).map(bucket => ({
+            name: bucket.Name ?? "Unnamed"
+        }));
+
+        return {owner: owner, buckets: buckets};
     }
 }
