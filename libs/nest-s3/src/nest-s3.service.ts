@@ -63,7 +63,7 @@ export class S3Service {
     async uploadObject(
         bucketName: string,
         key: string,
-        body: string,
+        body: string | Uint8Array | Buffer | ReadableStream<any> | Blob
     ): Promise<void> {
         await this.s3Client.send(
             new PutObjectCommand({
