@@ -42,6 +42,8 @@ A NestJS module for interacting with AWS S3. This module simplifies the integrat
     - [deleteAllObjects(bucketName: string): Promise<void>](#deleteallobjectsbucketname-string-promisevoid)
     - [deleteBucket(bucketName: string): Promise<void>](#deletebucketbucketname-string-promisevoid)
     - [createPresignedUrlWithClient(params: { bucket: string; key: string }): Promise<string>](#createpresignedurlwithclientparams--bucket-string-key-string--promisestring)
+    - [copyObject(sourceBucket: string, sourceKey: string, destinationBucket: string, destinationKey: string): Promise<void>](#copyobjectsourcebucket-string-sourcekey-string-destinationbucket-string-destinationkey-string-promisevoid)
+    - [listBuckets(): Promise<{ owner: { name: string }; buckets: { name: string }[] }>] (#listbuckets-promise-owner-name-string-buckets-name-string)
 - [License](#license)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
@@ -159,6 +161,14 @@ export class MyService {
 
     // Delete the bucket
     await this.s3Service.deleteBucket(bucketName);
+    
+    // Copy an object
+    await this.s3Service.copyObject('source-bucket', 'source-key', 'destination-bucket', 'destination-key');
+
+    // List all buckets
+    const { owner, buckets } = await this.s3Service.listBuckets();
+    console.log('Owner:', owner);
+    console.log('Buckets:', buckets);
   }
 }
 ```
@@ -188,6 +198,8 @@ await this.s3Service.createBucket('my-new-bucket');
 Uploads an object to the specified S3 bucket.
 
 ```typescript
+
+
 await this.s3Service.uploadObject('my-new-bucket', 'my-object-key', 'Hello, world!');
 ```
 
@@ -231,6 +243,24 @@ Generates a presigned URL for accessing an object in the specified S3 bucket.
 ```typescript
 const presignedUrl = await this.s3Service.createPresignedUrlWithClient({ bucket: 'my-new-bucket', key: 'my-object-key' });
 console.log('Presigned URL:', presignedUrl);
+```
+
+### `copyObject(sourceBucket: string, sourceKey: string, destinationBucket: string, destinationKey: string): Promise<void>`
+
+Copies an object from one bucket to another in AWS S3.
+
+```typescript
+await this.s3Service.copyObject('source-bucket', 'source-key', 'destination-bucket', 'destination-key');
+```
+
+### `listBuckets(): Promise<{ owner: { name: string }; buckets: { name: string }[] }>`
+
+Lists all buckets in AWS S3.
+
+```typescript
+const { owner, buckets } = await this.s3Service.listBuckets();
+console.log('Owner:', owner);
+console.log('Buckets:', buckets);
 ```
 
 ## License

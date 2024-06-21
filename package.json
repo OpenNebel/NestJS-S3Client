@@ -22,6 +22,7 @@
     "dist",
     "README.md"
   ],
+  "bugs": "https://github.com/OpenNebel/NestJS-S3Client/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/OpenNebel/NestJS-S3Client"
