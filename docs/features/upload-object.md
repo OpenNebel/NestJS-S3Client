@@ -14,7 +14,13 @@ await this.s3Service.uploadObject('my-new-bucket', 'my-object-key', 'Hello, worl
 
 - `bucketName`: The name of the bucket where the object will be uploaded.
 - `key`: The key under which the object is stored.
-- `body`: The content of the object.
+- `body`: The content of the object. (string, Uint8Array, Buffer, ReadableStream, Blob)
+
+### Types
+
+- `bucketName: string`
+- `key: string`
+- `body: string | Uint8Array | Buffer | ReadableStream<any> | Blob`
 
 ### Returns
 

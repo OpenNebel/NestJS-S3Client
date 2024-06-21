@@ -183,7 +183,7 @@ Creates a new S3 bucket with the specified name.
 await this.s3Service.createBucket('my-new-bucket');
 ```
 
-### `uploadObject(bucketName: string, key: string, body: string): Promise<void>`
+### `uploadObject(bucketName: string, key: string, body: string | Uint8Array | Buffer | ReadableStream<any> | Blob): Promise<void>`
 
 Uploads an object to the specified S3 bucket.
 

@@ -65,7 +65,7 @@ This method creates a new bucket in AWS S3. If the bucket creation fails, it thr
 
 ------
 
-### **`uploadObject(bucketName: string, key: string, body: string): Promise<void>`**
+### **`uploadObject(bucketName: string, key: string, body: string | Uint8Array | Buffer | ReadableStream<any> | Blob): Promise<void>`**
 
 Uploads an object to the specified S3 bucket.
 
