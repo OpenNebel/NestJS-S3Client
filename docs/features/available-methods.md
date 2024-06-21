@@ -1,10 +1,6 @@
----
-outline: deep
----
-
 # **Available Methods**
 
-Below are the available methods provided by the `S3Client` and `S3Service` 
+Below are the available methods provided by the `S3Client` and `S3Service`
 
 Before using these methods, ensure that you have configured the S3 module with the necessary credentials and settings. The S3 module provides a set of methods to interact with AWS S3, such as creating buckets, uploading objects, retrieving objects, deleting objects, and deleting buckets.
 
@@ -45,6 +41,7 @@ const buckets = await s3Client.send(new ListBucketsCommand({}));
 console.log('Buckets:', buckets.Buckets);
 // Output: Buckets: [ { Name: 'pdfs', CreationDate: 2022-01-01T00:00:00.000Z } ]
 ```
+
 ------
 
 ### **`createBucket(bucketName: string): Promise<void>`**
@@ -166,9 +163,9 @@ Generates a presigned URL for accessing an object in the specified S3 bucket.
 
 #### Parameters
 - `params`: An object containing:
-    - `bucket`: The name of the bucket where the object is stored.
-    - `key`: The key under which the object is stored.
-    - `expiresIn`: (Optional) The expiration time of the URL in seconds. Defaults to 3600 seconds (1 hour).
+  - `bucket`: The name of the bucket where the object is stored.
+  - `key`: The key under which the object is stored.
+  - `expiresIn`: (Optional) The expiration time of the URL in seconds. Defaults to 3600 seconds (1 hour).
 
 #### Usage
 
@@ -179,6 +176,44 @@ await this.s3Service.createPresignedUrlWithClient({ bucket: 'my-new-bucket', key
 
 #### Description
 This method generates a presigned URL for a specific object in a specified bucket in AWS S3. The URL can be used to access the object securely within the specified expiration time. If the presigned URL creation fails, it throws an error.
+
+------
+
+### **`copyObject(sourceBucket: string, sourceKey: string, destinationBucket: string, destinationKey: string): Promise<void>`**
+
+Copies an object from one bucket to another in AWS S3.
+
+#### Parameters
+- `sourceBucket`: The name of the source bucket.
+- `sourceKey`: The key of the source object.
+- `destinationBucket`: The name of the destination bucket.
+- `destinationKey`: The key of the destination object.
+
+#### Usage
+
+```typescript
+await this.s3Service.copyObject('source-bucket', 'source-key', 'destination-bucket', 'destination-key');
+```
+
+#### Description
+This method copies an object from one bucket to another in AWS S3. If the copy operation fails, it throws an error.
+
+------
+
+### **`listBuckets(): Promise<{ owner: { name: string }; buckets: { name: string }[] }>`**
+
+Lists all buckets in AWS S3.
+
+#### Usage
+
+```typescript
+const { owner, buckets } = await this.s3Service.listBuckets();
+console.log('owner:', owner);
+console.log('buckets:', buckets);
+```
+
+#### Description
+This method lists all buckets in AWS S3. It returns an object containing the owner and an array of buckets. If the listing fails, it throws an error.
 
 ---
 

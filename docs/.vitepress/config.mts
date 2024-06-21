@@ -2,7 +2,6 @@ import {defineConfig} from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-    lang: 'en-US',
     title: "NestJS S3-CLIENT",
     description: "NestJS module for AWS S3 adapted for AWS SDK v3",
     cleanUrls: true,
@@ -32,7 +31,6 @@ export default defineConfig({
             },
             {
                 text: 'Features',
-                collapsed: true,
                 items: [
                     {text: 'Available methods', link: '/features/available-methods'},
                     {text: 'Get Client', link: '/features/get-client'},
@@ -43,6 +41,8 @@ export default defineConfig({
                     {text: 'Delete All Objects', link: '/features/delete-all-objects'},
                     {text: 'Delete Bucket', link: '/features/delete-bucket'},
                     {text: 'Create Presigned URL', link: '/features/presigned-url'},
+                    {text: 'List Buckets [NEW]', link: '/features/list-buckets'},
+                    {text: 'Copy Object [NEW]', link: '/features/copy-object'},
                 ]
             }
         ],

@@ -51,8 +51,6 @@
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.3.9",
-    "@nestjs/testing": "^10.3.9",
-    "@types/jest": "^29.5.12",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "webpack": "^5.0.0"
